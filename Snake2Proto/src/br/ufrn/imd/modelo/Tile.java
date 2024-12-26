@@ -4,10 +4,12 @@ public class Tile {
 	
 	private int x;
 	private int y;
+	private boolean filled;
 	
 	public Tile(int x, int y) {
 		this.x = x;
 		this.y = y;
+		filled = false;
 	}
 
 	public int getX() {
@@ -32,5 +34,13 @@ public class Tile {
 	
 	public void updateY(int v) {
 		this.y += v;
+	}
+	
+	public boolean checkFilled() {
+		return filled;
+	}
+	
+	public void fillIn() {
+		filled = true;
 	}
 }
