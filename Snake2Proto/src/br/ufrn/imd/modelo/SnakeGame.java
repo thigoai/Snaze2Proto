@@ -61,7 +61,6 @@ KeyListener {
 	
 	private int boardWidth;
 	private int boardHeight;
-	
 	private int tileSize = 25;
 	
 	public SnakeGame(int boardWidth, int boardHeight){

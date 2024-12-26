@@ -4,6 +4,7 @@ public class Tile {
 	
 	private int x;
 	private int y;
+	
 	private boolean filled;
 	
 	public Tile(int x, int y) {
