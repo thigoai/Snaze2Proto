@@ -9,7 +9,7 @@ import javax.swing.*;
 public class SnakeGame extends JPanel implements ActionListener, 
 KeyListener {
 	
-	//private Tile snakeHead;
+	private Tile snakeHead;
 	private ArrayList<Tile> snakeBody;
 	private int velocityX;
 	private int velocityY;
