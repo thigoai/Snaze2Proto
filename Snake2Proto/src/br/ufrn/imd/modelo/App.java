@@ -11,7 +11,6 @@ public class App {
 		int boardWidth = 600;
 		int boardHeigth = boardWidth;
 		
-		
 		JFrame frame = new JFrame("Snake");
 		frame.setVisible(true);
 		frame.setSize(boardWidth, boardHeigth);

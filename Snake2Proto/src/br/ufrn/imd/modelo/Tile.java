@@ -33,5 +33,4 @@ public class Tile {
 	public void updateY(int v) {
 		this.y += v;
 	}
-
 }
