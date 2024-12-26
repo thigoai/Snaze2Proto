@@ -21,4 +21,15 @@ public class Maze {
 	public ArrayList<Tile> getMazeLevel(){
 		return mazeLevel;
 	}
+	
+	public boolean isWall(int x, int y) {
+	    Tile wall = new Tile(x, y);
+	    for (Tile t : mazeLevel) {
+	        if (t.equals(wall)) {
+	            return true;
+	        }
+	    }
+	    return false; 
+	}
+
 }

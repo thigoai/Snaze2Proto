@@ -156,6 +156,9 @@ KeyListener {
 	public void placeFood() {
 		food.setX(random.nextInt(boardWidth/tileSize));
 		food.setY(random.nextInt(boardHeight/tileSize));
+		if (cells[food.getX()][food.getY()] == 1) {
+	        placeFood();
+	    }
 	}
 	
 	public boolean collision(Tile t1, Tile t2) {
@@ -163,34 +166,64 @@ KeyListener {
 	}
 	
 	public boolean checkGameOver() {
-		for(int i = 0; i < snakeBody.size(); i++) {
-			if(collision(snakeBody.get(i), snakeHead)) {
-				return true;
-			}
-		}
-		if(snakeHead.getX()*tileSize < 0 || snakeHead.getX()*tileSize > boardWidth 
-				|| snakeHead.getY()*tileSize < 0 || snakeHead.getY()*tileSize > boardHeight) {
-			return true;
-		}else {
-			return false;
-		}
+	    for (int i = 0; i < snakeBody.size(); i++) {
+	        if (collision(snakeBody.get(i), snakeHead)) {
+	            return true;
+	        }
+	    }
+
+	    if (snakeHead.getX() < 0 || snakeHead.getX() >= boardWidth / tileSize || 
+	        snakeHead.getY() < 0 || snakeHead.getY() >= boardHeight / tileSize) {
+	        return true; 
+	    }
+
+	    if (cells[snakeHead.getX()][snakeHead.getY()] == 1) {
+	        return true;
+	    }
+
+
+	    return false;
 	}
 	
+	public boolean isSafeMove(int x, int y) {
+		
+		int newX = botHead.getX() + x;
+		int newY = botHead.getY() + y;
+		
+		if (cells[newX][newY] == 1) {
+	        return false;
+	    }
+		
+		if (newX < 0 || newX >= boardWidth / tileSize || newY < 0 || newY >= boardHeight / tileSize) {
+	        return false;
+	    }
+		
+		for (Tile part : snakeBody) {
+	        if (part.getX() == newX && part.getY() == newY) {
+	            return false;
+	        }
+	    }
+
+	    return true;
+		
+	}
+
+	
 	public void botControl() {
-		if(botHead.getY() < food.getY() && botVelocityY != 1) {
+		if(botHead.getY() < food.getY() && botVelocityY != -1 && isSafeMove(0, 1)) {
 			botVelocityX = 0;
 			botVelocityY = 1;
 		}
-		if(botHead.getY() > food.getY() && botVelocityY != -1) {
+		if(botHead.getY() > food.getY() && botVelocityY != 1 && isSafeMove(0, -1)) {
 			botVelocityX = 0;
 			botVelocityY = -1;
 		}
 		
-		if(botHead.getX() < food.getX() && botVelocityX != 1) {
+		if(botHead.getX() < food.getX() && botVelocityX != -1 && isSafeMove(1, 0)) {
 			botVelocityX = 1;
 			botVelocityY = 0;
 		}
-		if(botHead.getX() > food.getX() && botVelocityX != -1) {
+		if(botHead.getX() > food.getX() && botVelocityX != 1 && isSafeMove(-1, 0)) {
 			botVelocityX = -1;
 			botVelocityY = 0;
 		}
@@ -246,13 +279,13 @@ KeyListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		gameOver = checkGameOver();
+		if(gameOver) {
+			gameLoopTimer.stop();
+		}
 		move();
 		botControl();
 		moveBot();
 		repaint();
-		if(gameOver) {
-			gameLoopTimer.stop();
-		}
 	}
 
 	@Override
