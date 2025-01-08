@@ -1,8 +1,8 @@
-package br.ufrn.imd.thiago.visao;
+package br.ufrn.imd.visao;
 
 import javax.swing.*;
 import br.ufrn.imd.modelo.SnakeGame;
-import br.ufrn.imd.thiago.util.ThreadsManeger;
+import br.ufrn.imd.util.ThreadsManeger;
 
 public class App {
 	

@@ -1,4 +1,4 @@
-package br.ufrn.imd.thiago.util;
+package br.ufrn.imd.util;
 
 import br.ufrn.imd.modelo.SnakeGame;
 import javax.swing.*;
