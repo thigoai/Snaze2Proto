@@ -7,9 +7,6 @@ import java.util.ArrayList;
 import java.util.Random;
 import javax.swing.*;
 
-
-
-
 public class SnakeGame extends JPanel implements ActionListener, 
 KeyListener {
 	
@@ -83,7 +80,7 @@ KeyListener {
 		
 		//maze = new ArrayList<Tile>();
 		maze = new Maze();
-		maze.generateMaze(cells);
+		//maze.generateMaze(cells);
 		
 		food = new Tile(10, 10);
 		random = new Random();
@@ -93,6 +90,212 @@ KeyListener {
 		gameLoopTimer.start();		
 	}
 	
+	
+	
+	public int[][] getCells() {
+		return cells;
+	}
+
+
+
+	public void setCells(int[][] cells) {
+		this.cells = cells;
+	}
+
+
+
+	public Tile getSnakeHead() {
+		return snakeHead;
+	}
+
+
+
+	public void setSnakeHead(Tile snakeHead) {
+		this.snakeHead = snakeHead;
+	}
+
+
+
+	public ArrayList<Tile> getSnakeBody() {
+		return snakeBody;
+	}
+
+
+
+	public void setSnakeBody(ArrayList<Tile> snakeBody) {
+		this.snakeBody = snakeBody;
+	}
+
+
+
+	public int getVelocityX() {
+		return velocityX;
+	}
+
+
+
+	public void setVelocityX(int velocityX) {
+		this.velocityX = velocityX;
+	}
+
+
+
+	public int getVelocityY() {
+		return velocityY;
+	}
+
+
+
+	public void setVelocityY(int velocityY) {
+		this.velocityY = velocityY;
+	}
+
+
+
+	public Tile getBotHead() {
+		return botHead;
+	}
+
+
+
+	public void setBotHead(Tile botHead) {
+		this.botHead = botHead;
+	}
+
+
+
+	public ArrayList<Tile> getBotBody() {
+		return botBody;
+	}
+
+
+
+	public void setBotBody(ArrayList<Tile> botBody) {
+		this.botBody = botBody;
+	}
+
+
+
+	public int getBotVelocityX() {
+		return botVelocityX;
+	}
+
+
+
+	public void setBotVelocityX(int botVelocityX) {
+		this.botVelocityX = botVelocityX;
+	}
+
+
+
+	public int getBotVelocityY() {
+		return botVelocityY;
+	}
+
+
+
+	public void setBotVelocityY(int botVelocityY) {
+		this.botVelocityY = botVelocityY;
+	}
+
+
+
+	public Maze getMaze() {
+		return maze;
+	}
+
+
+
+	public void setMaze(Maze maze) {
+		this.maze = maze;
+	}
+
+
+
+	public Tile getFood() {
+		return food;
+	}
+
+
+
+	public void setFood(Tile food) {
+		this.food = food;
+	}
+
+
+
+	public Random getRandom() {
+		return random;
+	}
+
+
+
+	public void setRandom(Random random) {
+		this.random = random;
+	}
+
+
+
+	public Timer getGameLoopTimer() {
+		return gameLoopTimer;
+	}
+
+
+
+	public void setGameLoopTimer(Timer gameLoopTimer) {
+		this.gameLoopTimer = gameLoopTimer;
+	}
+
+
+
+	public boolean isGameOver() {
+		return gameOver;
+	}
+
+
+
+	public void setGameOver(boolean gameOver) {
+		this.gameOver = gameOver;
+	}
+
+
+
+	public int getBoardWidth() {
+		return boardWidth;
+	}
+
+
+
+	public void setBoardWidth(int boardWidth) {
+		this.boardWidth = boardWidth;
+	}
+
+
+
+	public int getBoardHeight() {
+		return boardHeight;
+	}
+
+
+
+	public void setBoardHeight(int boardHeight) {
+		this.boardHeight = boardHeight;
+	}
+
+
+
+	public int getTileSize() {
+		return tileSize;
+	}
+
+
+
+	public void setTileSize(int tileSize) {
+		this.tileSize = tileSize;
+	}
+
+
+
 	public void paintComponent(Graphics g) {
 		 super.paintComponent(g);
 		 draw(g);
@@ -198,11 +401,11 @@ KeyListener {
 	        return false;
 	    }
 		
-		for (Tile part : snakeBody) {
-	        if (part.getX() == newX && part.getY() == newY) {
-	            return false;
-	        }
-	    }
+		for (Tile part : botBody) {
+		    if (part.getX() == newX && part.getY() == newY) {
+		        return false;
+		    }
+		}
 
 	    return true;
 		
@@ -278,15 +481,34 @@ KeyListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		gameOver = checkGameOver();
-		if(gameOver) {
-			gameLoopTimer.stop();
-		}
-		move();
-		botControl();
-		moveBot();
-		repaint();
+	    long start = System.nanoTime();
+	    
+	    gameOver = checkGameOver();
+	    long checkGameOverTime = System.nanoTime();
+//	    if (gameOver) {
+//	        gameLoopTimer.stop();
+//	    }
+	    
+	    move();
+	    long moveTime = System.nanoTime();
+	    
+	    botControl();
+	    long botControlTime = System.nanoTime();
+	    
+	    moveBot();
+	    long moveBotTime = System.nanoTime();
+	    
+	    repaint();
+	    long repaintTime = System.nanoTime();
+	    
+	    // Log do tempo gasto em cada operação
+	    System.out.println("checkGameOver: " + (checkGameOverTime - start) / 1_000_000 + " ms");
+	    System.out.println("move: " + (moveTime - checkGameOverTime) / 1_000_000 + " ms");
+	    System.out.println("botControl: " + (botControlTime - moveTime) / 1_000_000 + " ms");
+	    System.out.println("moveBot: " + (moveBotTime - botControlTime) / 1_000_000 + " ms");
+	    System.out.println("repaint: " + (repaintTime - moveBotTime) / 1_000_000 + " ms");
 	}
+
 
 	@Override
 	public void keyPressed(KeyEvent e) {

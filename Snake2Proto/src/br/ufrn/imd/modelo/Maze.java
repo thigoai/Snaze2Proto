@@ -6,6 +6,10 @@ public class Maze {
 	
 	private ArrayList<Tile> mazeLevel;
 	
+	public Maze() {
+		mazeLevel = new ArrayList<Tile>();
+	}
+	
 	public void generateMaze(int[][] cells) {
 		mazeLevel = new ArrayList<>();
 		
