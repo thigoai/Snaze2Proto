@@ -1,39 +1,29 @@
 package br.ufrn.imd.modelo;
 
-import java.util.ArrayList;
-
 public class Labirinto {
-	
-	private ArrayList<Celula> layout;
-	
-	public Labirinto() {
-		layout = new ArrayList<Celula>();
-	}
-	
-	public void gerarLabirinto(int[][] celulas) {
-		layout= new ArrayList<>();
-		
-		for(int i = 0; i < celulas.length; i++) {
-			for(int j = 0; j < celulas[i].length; j++) {
-				if(celulas[i][j] == 1) {
-					layout.add(new Celula(i, j));
-				}
-			}
-		}
-	}
-	
-	public ArrayList<Celula> getLayout(){
-		return layout;
-	}
-	
-	public boolean ehParede(int x, int y) {
-	    Celula parede = new Celula(x, y);
-	    for (Celula c : layout) {
-	        if (c.equals(parede)) {
-	            return true;
-	        }
-	    }
-	    return false; 
-	}
+    private int[][] cells;
 
+    public Labirinto() {
+        // Construtor vazio
+    }
+
+    public void gerarLabirinto(int[][] newCells) {
+        this.cells = newCells;
+    }
+
+    public boolean ehParede(int linha, int coluna) {
+        // Verifica se está dentro dos limites do labirinto
+        if (linha < 0 || linha >= cells.length || coluna < 0 || coluna >= cells[0].length) {
+            return true;
+        }
+        return cells[linha][coluna] == 1;
+    }
+
+    public int[][] getCells() {
+        return cells;
+    }
+
+    public void setCells(int[][] cells) {
+        this.cells = cells;
+    }
 }

@@ -1,49 +1,71 @@
 package br.ufrn.imd.modelo;
 
-import java.util.LinkedList;
-import java.util.Queue;
-
-public class SnakeBot extends Snake{
-	
-	private Queue<Direcao> caminho;
-	private Direcao direcao;
-	
-	
-	public SnakeBot(Celula pontoDeNascimento) {
-		super(pontoDeNascimento);
-		caminho = new LinkedList<>();
-		this.direcao = Direcao.UP;
-	}
-
-	public void setDirecao(Direcao novaDirecao) {
-		if (direcao == null || direcao != novaDirecao.getOposto()) {
-	        this.direcao = novaDirecao;
-	    }
-        if (this.direcao!= novaDirecao.getOposto()) {
-            this.direcao = novaDirecao;
+public class SnakeBot extends Snake {
+    private Labirinto labirinto;
+    
+    public SnakeBot(Celula posicaoInicial, Labirinto lab) {
+        super(posicaoInicial.getX(), posicaoInicial.getY());
+        this.labirinto = lab;
+    }
+    
+    public void calcularCaminho(Celula comida) {
+        Celula cabeca = getCabeca();
+        boolean mudouDirecao = false;
+        
+        // Se está indo em direção a uma parede, tenta desviar
+        if (labirinto.ehParede(cabeca.getY() + direcaoY, cabeca.getX() + direcaoX)) {
+            // Tenta primeiro desviar mantendo o movimento na direção do objetivo
+            if (cabeca.getX() < comida.getX() && !labirinto.ehParede(cabeca.getY(), cabeca.getX() + 1) && direcaoX != -1) {
+                setDirecao(1, 0);
+                mudouDirecao = true;
+            } 
+            else if (cabeca.getX() > comida.getX() && !labirinto.ehParede(cabeca.getY(), cabeca.getX() - 1) && direcaoX != 1) {
+                setDirecao(-1, 0);
+                mudouDirecao = true;
+            }
+            else if (cabeca.getY() < comida.getY() && !labirinto.ehParede(cabeca.getY() + 1, cabeca.getX()) && direcaoY != -1) {
+                setDirecao(0, 1);
+                mudouDirecao = true;
+            }
+            else if (cabeca.getY() > comida.getY() && !labirinto.ehParede(cabeca.getY() - 1, cabeca.getX()) && direcaoY != 1) {
+                setDirecao(0, -1);
+                mudouDirecao = true;
+            }
+            
+            // Se não conseguiu desviar mantendo direção ao objetivo, tenta qualquer direção livre
+            if (!mudouDirecao) {
+                if (!labirinto.ehParede(cabeca.getY(), cabeca.getX() + 1) && direcaoX != -1) {
+                    setDirecao(1, 0);
+                }
+                else if (!labirinto.ehParede(cabeca.getY(), cabeca.getX() - 1) && direcaoX != 1) {
+                    setDirecao(-1, 0);
+                }
+                else if (!labirinto.ehParede(cabeca.getY() + 1, cabeca.getX()) && direcaoY != -1) {
+                    setDirecao(0, 1);
+                }
+                else if (!labirinto.ehParede(cabeca.getY() - 1, cabeca.getX()) && direcaoY != 1) {
+                    setDirecao(0, -1);
+                }
+            }
+        }
+        // Se não há parede à frente, tenta se mover em direção à comida
+        else if (!mudouDirecao) {
+            if (cabeca.getX() < comida.getX() && !labirinto.ehParede(cabeca.getY(), cabeca.getX() + 1) && direcaoX != -1) {
+                setDirecao(1, 0);
+            }
+            else if (cabeca.getX() > comida.getX() && !labirinto.ehParede(cabeca.getY(), cabeca.getX() - 1) && direcaoX != 1) {
+                setDirecao(-1, 0);
+            }
+            else if (cabeca.getY() < comida.getY() && !labirinto.ehParede(cabeca.getY() + 1, cabeca.getX()) && direcaoY != -1) {
+                setDirecao(0, 1);
+            }
+            else if (cabeca.getY() > comida.getY() && !labirinto.ehParede(cabeca.getY() - 1, cabeca.getX()) && direcaoY != 1) {
+                setDirecao(0, -1);
+            }
         }
     }
-
-	public Celula getProximaPosicao() {
-	    if (direcao == Direcao.UP) {
-	        return new Celula(cabeca.getX(), cabeca.getY() - 1);
-	    } else if (direcao == Direcao.DOWN) {
-	        return new Celula(cabeca.getX(), cabeca.getY() + 1);
-	    } else if (direcao == Direcao.LEFT) {
-	        return new Celula(cabeca.getX() - 1, cabeca.getY());
-	    } else if (direcao == Direcao.RIGHT) {
-	        return new Celula(cabeca.getX() + 1, cabeca.getY());
-	    } else {
-	        throw new IllegalStateException("Direção inválida");
-	    }
-	}
-
     
-    public void pensar(Celula objetivo) {
-        if (objetivo.getX() > cabeca.getX()) caminho.add(Direcao.RIGHT);
-        else if (objetivo.getX() < cabeca.getX()) caminho.add(Direcao.LEFT);
-        else if (objetivo.getY() > cabeca.getY()) caminho.add(Direcao.DOWN);
-        else if (objetivo.getY() < cabeca.getY()) caminho.add(Direcao.UP);
+    public void executarMovimento() {
+        mover();
     }
-
 }

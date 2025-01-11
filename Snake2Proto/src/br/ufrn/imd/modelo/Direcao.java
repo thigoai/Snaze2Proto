@@ -1,15 +1,24 @@
 package br.ufrn.imd.modelo;
 
 public enum Direcao {
-    UP, DOWN, LEFT, RIGHT;
+    CIMA(0, -1),
+    BAIXO(0, 1),
+    ESQUERDA(-1, 0),
+    DIREITA(1, 0);
 
-    public Direcao getOposto() {
-        switch (this) {
-            case UP: return DOWN;
-            case DOWN: return UP;
-            case LEFT: return RIGHT;
-            case RIGHT: return LEFT;
-            default: throw new IllegalStateException("Direção inválida");
-        }
+    private final int dx;
+    private final int dy;
+
+    Direcao(int dx, int dy) {
+        this.dx = dx;
+        this.dy = dy;
+    }
+
+    public int getDx() {
+        return dx;
+    }
+
+    public int getDy() {
+        return dy;
     }
 }

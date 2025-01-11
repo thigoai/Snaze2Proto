@@ -1,88 +1,73 @@
 package br.ufrn.imd.modelo;
 
 import java.util.ArrayList;
+import java.util.List;
 
-
-public abstract class Snake {
+public class Snake {
+	protected List<Celula> corpo;
+	protected int direcaoX;
+	protected int direcaoY;
 	
-	protected Celula cabeca;
-	protected ArrayList<Celula> corpo;
-	protected int velocityX;
-	protected int velocityY;
-	protected boolean estaViva;
-	
-	public Snake(Celula pontoDeNascimento) {
-		cabeca = pontoDeNascimento;
-		corpo = new ArrayList<Celula>();
-		velocityX = velocityY = 0;
-		estaViva = true;
+	public Snake(int x, int y) {
+		corpo = new ArrayList<>();
+		corpo.add(new Celula(x, y)); // Cabeça
+		direcaoX = 1; // Direção inicial para direita
+		direcaoY = 0;
 	}
-
+	
+	public void setDirecao(int dx, int dy) {
+		this.direcaoX = dx;
+		this.direcaoY = dy;
+	}
+	
 	public Celula getCabeca() {
-		return cabeca;
-	}
-
-	public void setCabeca(Celula cabeca) {
-		this.cabeca = cabeca;
-	}
-
-	public ArrayList<Celula> getCorpo() {
-		return corpo;
-	}
-
-	public void setBody(ArrayList<Celula> corpo) {
-		this.corpo = corpo;
-	}
-
-	public int getVelocityX() {
-		return velocityX;
-	}
-
-	public void setVelocityX(int velocityX) {
-		this.velocityX = velocityX;
-	}
-
-	public int getVelocityY() {
-		return velocityY;
-	}
-
-	public void setVelocityY(int velocityY) {
-		this.velocityY = velocityY;
-	}
-
-	public boolean isEstaViva() {
-		return estaViva;
-	}
-
-	public void setEstaViva(boolean estaViva) {
-		this.estaViva = estaViva;
-	}
-	
-	public boolean colisao(Celula c) {
-		return cabeca.getX() == c.getX() && cabeca.getY() == c.getY();
+		return corpo.get(0);
 	}
 	
 	public void mover() {
-		for(int i = corpo.size() - 1; i >= 0; i--) {
-			Celula parte = corpo.get(i);
-			if(i == 0){
-				parte.setX(cabeca.getX());
-				parte.setY(cabeca.getY());
-			}else {
-				Celula parteAntes= corpo.get(i-1);
-				parte.setX(parteAntes.getX());
-				parte.setY(parteAntes.getY());
-			}
-		}
+		Celula cabeca = getCabeca();
+		Celula novaCabeca = new Celula(
+			cabeca.getX() + direcaoX,
+			cabeca.getY() + direcaoY
+		);
 		
-		cabeca.updateX(velocityX);
-		cabeca.updateY(velocityY);
+		corpo.add(0, novaCabeca);
+		corpo.remove(corpo.size() - 1);
 	}
 	
 	public void crescer() {
-		Celula rabo = corpo.get(corpo.size() - 1);
-        corpo.add(rabo);
+		Celula cauda = corpo.get(corpo.size() - 1);
+		corpo.add(new Celula(cauda.getX(), cauda.getY()));
 	}
-
-
+	
+	public List<Celula> getCorpo() {
+		return corpo;
+	}
+	
+	public boolean colisao(Celula outra) {
+		Celula cabeca = getCabeca();
+		return cabeca.getX() == outra.getX() && cabeca.getY() == outra.getY();
+	}
+	
+	public boolean colisaoComCorpo() {
+		Celula cabeca = getCabeca();
+		// Começa do índice 1 pois 0 é a própria cabeça
+		for (int i = 1; i < corpo.size(); i++) {
+			Celula parte = corpo.get(i);
+			if (cabeca.getX() == parte.getX() && cabeca.getY() == parte.getY()) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean colisaoComOutraSnake(Snake outraSnake) {
+		Celula cabeca = getCabeca();
+		for (Celula parte : outraSnake.getCorpo()) {
+			if (cabeca.getX() == parte.getX() && cabeca.getY() == parte.getY()) {
+				return true;
+			}
+		}
+		return false;
+	}
 }
