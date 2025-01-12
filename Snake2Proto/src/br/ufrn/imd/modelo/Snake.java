@@ -70,4 +70,9 @@ public class Snake {
 		}
 		return false;
 	}
+
+	public Direcao getDirecao() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
