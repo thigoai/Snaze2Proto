@@ -11,6 +11,7 @@ import br.ufrn.imd.dao.LevelLoader;
 import br.ufrn.imd.dao.PlayerData;
 import br.ufrn.imd.grafico.Menu;
 import br.ufrn.imd.grafico.MenuPrincipal;
+import br.ufrn.imd.grafico.MenuSelecaoJogador;
 import br.ufrn.imd.grafico.Render;
 import br.ufrn.imd.grafico.Menu.GameMode;
 
@@ -106,12 +107,13 @@ KeyListener {
 	}
 	
 	private void inicializarModoAventura() {
-		playerData = new PlayerData();
-		playerData.setPlayerName("Thiago");
-		playerData.setPlayerScore(500);
-		
-		playerData.loadPlayerData("/Snake2Proto/resources/playersData");
-		
+		MenuSelecaoJogador menuSelecao = new MenuSelecaoJogador(boardWidth, boardHeight, frame, this);
+		frame.getContentPane().removeAll();
+		frame.getContentPane().add(menuSelecao);
+		menuSelecao.requestFocus();
+		frame.revalidate();
+		frame.repaint();
+		gameLoopTimer.stop(); // Para o timer enquanto seleciona o jogador
 	}
 	
 	private void inicializarModoSinglePlayer() {
@@ -248,45 +250,10 @@ KeyListener {
 				atualizarModoSinglePlayer();
 				break;
 			case MULTIPLAYER:
-				atualizarModoMultiplayer();
+				//atualizarModoMultiplayer();
 				break;
 		}
 	}
-
-//	private void atualizarModoAventura() {
-//		if (jogoIniciado && !snake1Morta) {
-//			snake1.mover();
-//			
-//			if (verificarColisaoParede(snake1) || snake1.colisaoComCorpo()) {
-//				snake1Morta = true;
-//				piscadas = 0;
-//				mortesSnake1++;
-//				
-//				if (mortesSnake1 >= MAX_MORTES) {
-//					gameOver = true;
-//					return;
-//				}
-//			}
-//		}
-//		
-//		// Verifica se completou o nível atual
-//		if (snake1.getCorpo().size() >= TAMANHO_VITORIA) {
-//			if (currentLevel < levels.size() - 1) {
-//				currentLevel++;
-//				carregarProximoNivel();
-//			} else {
-//				gameOver = true; // Completou todos os níveis
-//			}
-//		}
-//	}
-	
-//	private void carregarProximoNivel() {
-//		LevelLoader.Level level = levels.get(currentLevel);
-//		labirinto.gerarLabirinto(level.getLayout());
-//		reiniciarSnake(snake1, level.getStartPoint());
-//		calcularPosicoesValidasComida();
-//		placeFood();
-//	}
 
 	private boolean verificarColisaoParede(Snake snake) {
 		Celula cabeca = snake.getCabeca();
@@ -582,5 +549,29 @@ KeyListener {
 		menuPrincipal.requestFocus();
 		frame.revalidate();
 		frame.repaint();
+	}
+
+	// Adicionar método para iniciar o jogo após selecionar o jogador
+	public void iniciarJogoAventura(PlayerData jogador) {
+		this.playerData = jogador;
+		
+		// Carregar primeiro nível
+		int[][] layout = LevelLoader.loadLevel("../Snake2Proto/resources/levels/level1.txt");
+		labirinto = new Labirinto();
+		labirinto.gerarLabirinto(layout);
+		
+		// Inicializar cobra do jogador
+		pontoDeNascimento1 = new Celula(5, 5);
+		snake1 = new SnakePlayer(pontoDeNascimento1);
+		
+		inicializarComida();
+		
+		// Reiniciar o jogo
+		frame.getContentPane().removeAll();
+		frame.getContentPane().add(this);
+		this.requestFocus();
+		frame.revalidate();
+		frame.repaint();
+		gameLoopTimer.start();
 	}
 }
