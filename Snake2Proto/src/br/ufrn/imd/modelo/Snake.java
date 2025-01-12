@@ -1,5 +1,6 @@
 package br.ufrn.imd.modelo;
 
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -74,5 +75,20 @@ public class Snake {
 	public Direcao getDirecao() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public void receberComando1(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void calcularCaminho(Celula comida) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void executarMovimento() {
+		// TODO Auto-generated method stub
+		
 	}
 }

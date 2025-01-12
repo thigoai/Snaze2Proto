@@ -1,4 +1,6 @@
-package br.ufrn.imd.modelo;
+package br.ufrn.imd.controle;
+
+import br.ufrn.imd.modelo.SnakeGame;
 
 public class GameLoop implements Runnable {
     private SnakeGame game;

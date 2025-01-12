@@ -1,4 +1,4 @@
-package br.ufrn.imd.modelo;
+package br.ufrn.imd.dao;
 
 import java.io.BufferedReader;
 import java.io.File;

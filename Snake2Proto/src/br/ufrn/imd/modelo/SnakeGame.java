@@ -7,64 +7,33 @@ import java.util.List;
 import java.util.Random;
 import javax.swing.*;
 
-import br.ufrn.imd.visao.Menu.GameMode;
+import br.ufrn.imd.dao.LevelLoader;
+import br.ufrn.imd.dao.PlayerData;
+import br.ufrn.imd.grafico.Menu;
+import br.ufrn.imd.grafico.MenuPrincipal;
+import br.ufrn.imd.grafico.Render;
+import br.ufrn.imd.grafico.Menu.GameMode;
 
 public class SnakeGame extends JPanel implements ActionListener, 
 KeyListener {
-	
-//	int[][] cells = {
-//		    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-//		    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-//		    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-//		    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-//		    {1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1},
-//		    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1},
-//		    {1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1},
-//		    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1},
-//		    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1},
-//		    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1},
-//		    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1},
-//		    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1},
-//		    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1},
-//		    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1},
-//		    {1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1},
-//		    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1},
-//		    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1},
-//		    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1},
-//		    {1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 1},
-//		    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-//		    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-//		    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-//		    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
-//	};
 
 	private GameMode gameMode;
-    //private List<LevelLoader.Level> levels;
-    private int currentLevel = 0;
-
-	private SnakePlayer snake1;
-	
-	private SnakeBot snake2;
-	
+	private Menu menu;
+	private PlayerData playerData;
+	private Snake snake1;
+	private Snake snake2;
 	private Labirinto labirinto;
-	
 	private Celula comida;
 	private Celula proximaComida;
-	
 	private Random random;
 	private Timer gameLoopTimer;
 	private boolean gameOver = false;
-	
 	private int boardWidth;
 	private int boardHeight;
 	private int tileSize = 25;
-	
 	private Render render;
-	
 	private boolean jogoIniciado = false;
-	
 	private List<Celula> posicoesValidasComida;
-	
 	private boolean snake1Morta = false;
 	private boolean snake2Morta = false;
 	private int piscadas = 0;
@@ -79,10 +48,37 @@ KeyListener {
 	private final int TAMANHO_VITORIA = 20;
 	private final int MAX_MORTES = 5;
 	
-	public SnakeGame(int boardWidth, int boardHeight, GameMode gameMode){
+	private boolean pausado = false;
+	
+	private Menu menuPausa;
+	private MenuPrincipal menuPrincipal;
+	private JFrame frame;
+	
+	public SnakeGame(int boardWidth, int boardHeight, GameMode gameMode, MenuPrincipal menuPrincipal, JFrame frame) {
 		this.boardWidth = boardWidth;
 		this.boardHeight = boardHeight;
 		this.gameMode = gameMode;
+		this.menuPrincipal = menuPrincipal;
+		this.frame = frame;
+		
+		// Cria o menu de pausa
+		this.menuPausa = new Menu(boardWidth, boardHeight, "JOGO PAUSADO", 
+			new String[]{"Continuar", "Menu Principal", "Sair"}) {
+			@Override
+			public void selecionarOpcao() {
+				switch (getOpcaoSelecionada()) {
+					case 0: // Continuar
+						pausarJogo();
+						break;
+					case 1: // Menu Principal
+						voltarMenuPrincipal();
+						break;
+					case 2: // Sair
+						System.exit(0);
+						break;
+				}
+			}
+		};
 		
 		setPreferredSize(new Dimension(this.boardWidth, this.boardHeight));
 		setBackground(Color.black);
@@ -110,26 +106,15 @@ KeyListener {
 	}
 	
 	private void inicializarModoAventura() {
-//		// Carrega os níveis do arquivo
-//		levels = LevelLoader.loadLevels("levels/level1.txt");
-//		if (!levels.isEmpty()) {
-//			LevelLoader.Level level = levels.get(currentLevel);
-//			labirinto = new Labirinto();
-//			labirinto.gerarLabirinto(level.getLayout());
-//			
-//			// Inicializa snake na posição inicial do nível
-//			pontoDeNascimento1 = level.getStartPoint();
-//			snake1 = new SnakePlayer(pontoDeNascimento1);
-//			
-//			// No modo aventura, não tem snake2
-//			snake2 = null;
-//		}
-//		
-//		inicializarComida();
+		playerData = new PlayerData();
+		playerData.setPlayerName("Thiago");
+		playerData.setPlayerScore(500);
+		
+		playerData.loadPlayerData("/Snake2Proto/resources/playersData");
+		
 	}
 	
 	private void inicializarModoSinglePlayer() {
-		// Carrega o layout do arquivo
 		int[][] layout = LevelLoader.loadLevel("../Snake2Proto/resources/levels/level1.txt");
 		
 		// Inicializa o labirinto com o layout carregado
@@ -138,7 +123,7 @@ KeyListener {
 		
 		// Inicializa as cobras em posições válidas
 		pontoDeNascimento1 = new Celula(5, 5);
-		pontoDeNascimento2 = new Celula(15, 5);
+		pontoDeNascimento2 = new Celula(18, 5);
 		snake1 = new SnakePlayer(pontoDeNascimento1);
 		snake2 = new SnakeBot(pontoDeNascimento2, labirinto);
 		
@@ -146,13 +131,17 @@ KeyListener {
 	}
 	
 	private void inicializarModoMultiplayer() {
-		labirinto = new Labirinto();
-		labirinto.gerarLabirinto(new int[23][24]);
+		int[][] layout = LevelLoader.loadLevel("../Snake2Proto/resources/levels/level1.txt");
 		
-		pontoDeNascimento1 = new Celula(5,5);
-		pontoDeNascimento2 = new Celula(6,6);
+		// Inicializa o labirinto com o layout carregado
+		labirinto = new Labirinto();
+		labirinto.gerarLabirinto(layout);
+		
+		// Inicializa as cobras em posições válidas
+		pontoDeNascimento1 = new Celula(5, 5);
+		pontoDeNascimento2 = new Celula(18, 5);
 		snake1 = new SnakePlayer(pontoDeNascimento1);
-		//snake2 = new SnakePlayer(pontoDeNascimento2);
+		snake2 = new SnakePlayer(pontoDeNascimento2);
 		
 		inicializarComida();
 	}
@@ -162,20 +151,12 @@ KeyListener {
 		posicoesValidasComida = new ArrayList<>();
 		calcularPosicoesValidasComida();
 		
-		comida = new Celula(10, 10);
+		comida = new Celula(20, 20);
 		proximaComida = new Celula(5, 5);
 		random = new Random();
 		placeFood();
 	}
 	
-//	public int[][] getCells() {
-//		return cells;
-//	}
-
-//	public void setCells(int[][] cells) {
-//		this.cells = cells;
-//	}
-
 	
 	public Labirinto getLabirinto() {
 		return labirinto;
@@ -257,7 +238,7 @@ KeyListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (gameOver) return;
+		if (gameOver || pausado) return;
 
 		switch (gameMode) {
 			case AVENTURA:
@@ -267,7 +248,7 @@ KeyListener {
 				atualizarModoSinglePlayer();
 				break;
 			case MULTIPLAYER:
-				//atualizarModoMultiplayer();
+				atualizarModoMultiplayer();
 				break;
 		}
 	}
@@ -320,9 +301,38 @@ KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		snake1.receberComando1(e); // Muda a direção
+		if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+			pausarJogo();
+			return;
+		}
+
+		if (pausado) {
+			switch (e.getKeyCode()) {
+				case KeyEvent.VK_UP:
+					menuPausa.navegarCima();
+					break;
+				case KeyEvent.VK_DOWN:
+					menuPausa.navegarBaixo();
+					break;
+				case KeyEvent.VK_ENTER:
+					menuPausa.selecionarOpcao();
+					break;
+			}
+			repaint();
+			return;
+		}
+
 		if (!jogoIniciado) {
-			jogoIniciado = true; // Inicia o jogo no primeiro comando
+			jogoIniciado = true;
+		}
+
+		if (gameMode == GameMode.MULTIPLAYER) {
+			snake1.receberComando1(e);
+			if (snake2 instanceof SnakePlayer) {
+				((SnakePlayer)snake2).receberComando2(e);
+			}
+		} else {
+			snake1.receberComando1(e);
 		}
 	}
 	
@@ -342,6 +352,10 @@ KeyListener {
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		render.draw(g);
+
+		if (pausado) {
+			menuPausa.draw(g);
+		}
 	}
 	
 	private void calcularPosicoesValidasComida() {
@@ -461,5 +475,112 @@ KeyListener {
 		render.setMortes(mortesSnake1, mortesSnake2);
 		
 		repaint();
+	}
+
+	private void atualizarModoMultiplayer() {
+		// Movimento do jogador 1
+		if (jogoIniciado && !snake1Morta) {
+			snake1.mover();
+			
+			if (verificarColisaoParede(snake1) || 
+				snake1.colisaoComCorpo() || 
+				snake1.colisaoComOutraSnake(snake2)) {
+					snake1Morta = true;
+					piscadas = 0;
+					mortesSnake1++;
+					pontosSnake2++; // Incrementa pontos do jogador 2 quando jogador 1 morre
+					if (mortesSnake1 >= MAX_MORTES) {
+						gameOver = true;
+						return;
+					}
+			}
+		}
+		
+		// Movimento do jogador 2
+		if (!snake2Morta) {
+			snake2.mover();
+			
+			if (verificarColisaoParede(snake2) || 
+				snake2.colisaoComCorpo() || 
+				snake2.colisaoComOutraSnake(snake1)) {
+					snake2Morta = true;
+					piscadas = 0;
+					mortesSnake2++;
+					pontosSnake1++; 
+					if (mortesSnake2 >= MAX_MORTES) {
+						gameOver = true;
+						return;
+					}
+			}
+		}
+		
+		// Gerencia piscadas e reinicialização
+		if ((snake1Morta || snake2Morta) && !gameOver) {
+			piscadas++;
+			if (piscadas >= MAX_PISCADAS) {
+				if (snake1Morta) {
+					reiniciarSnake(snake1, pontoDeNascimento1);
+					snake1Morta = false;
+				}
+				if (snake2Morta) {
+					reiniciarSnake(snake2, pontoDeNascimento2);
+					snake2Morta = false;
+				}
+				piscadas = 0;
+			}
+		}
+		
+		// Verificar colisões com comida
+		if (!snake1Morta && snake1.colisao(comida)) {
+			snake1.crescer();
+			pontosSnake1++;
+			placeFood();
+		}
+		
+		if (!snake2Morta && snake2.colisao(comida)) {
+			snake2.crescer();
+			pontosSnake2++;
+			placeFood();
+		}
+		
+		// Verifica condição de vitória por pontos
+		if (pontosSnake1 >= TAMANHO_VITORIA || pontosSnake2 >= TAMANHO_VITORIA) {
+			gameOver = true;
+			return;
+		}
+		
+		// Atualiza o render
+		render.setSnake1Morta(snake1Morta);
+		render.setSnake2Morta(snake2Morta);
+		render.setPiscadas(piscadas);
+		render.setGameOver(gameOver);
+		render.setMortes(mortesSnake1, mortesSnake2);
+		render.setPontos(pontosSnake1, pontosSnake2);
+		
+		repaint();
+	}
+
+	private void pausarJogo() {
+		pausado = !pausado;
+		if (pausado) {
+			gameLoopTimer.stop();
+		} else {
+			gameLoopTimer.start();
+		}
+		repaint();
+	}
+
+	public void voltarMenuPrincipal() {
+		gameLoopTimer.stop();
+		
+		pausado = false;
+		gameOver = false;
+		jogoIniciado = false;
+		
+		frame.getContentPane().removeAll();
+		frame.getContentPane().add(menuPrincipal);
+		menuPrincipal.requestFocus();
+		frame.revalidate();
+		frame.repaint();
 	}
 }

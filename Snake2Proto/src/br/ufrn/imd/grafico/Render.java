@@ -1,4 +1,4 @@
-package br.ufrn.imd.modelo;
+package br.ufrn.imd.grafico;
 
 import br.ufrn.imd.modelo.*;
 import javax.swing.*;
@@ -211,13 +211,13 @@ public class Render {
         );
         g2d.setPaint(gradient1);
         g2d.setFont(new Font("Segoe UI", Font.BOLD, fontSize));
-        String player1Text = "Jogador: " + snake1.getCorpo().size();
+        String player1Text = "Snake 1: " + snake1.getCorpo().size();
         g2d.drawString(player1Text, padding + iconSize + tileSize/2, textY);
         
         // Contador de mortes do Jogador 1
         g2d.setFont(new Font("Segoe UI", Font.PLAIN, fontSize * 2/3));
         g2d.setColor(new Color(255, 100, 100));
-        String deaths1 = "☠ " + mortesSnake1;
+        String deaths1 = "x " + mortesSnake1;
         g2d.drawString(deaths1, padding + iconSize + tileSize*5, textY);
         
         // Informações do Bot (lado direito)
@@ -236,13 +236,13 @@ public class Render {
         );
         g2d.setPaint(gradient2);
         g2d.setFont(new Font("Segoe UI", Font.BOLD, fontSize));
-        String player2Text = "Bot: " + snake2.getCorpo().size();
+        String player2Text = "Snake 2: " + snake2.getCorpo().size();
         g2d.drawString(player2Text, rightPadding - tileSize*6, textY);
         
         // Contador de mortes do Bot
         g2d.setFont(new Font("Segoe UI", Font.PLAIN, fontSize * 2/3));
         g2d.setColor(new Color(255, 100, 100));
-        String deaths2 = "☠ " + mortesSnake2;
+        String deaths2 = "x " + mortesSnake2;
         g2d.drawString(deaths2, rightPadding - tileSize*2, textY);
         
         // Barras de progresso
