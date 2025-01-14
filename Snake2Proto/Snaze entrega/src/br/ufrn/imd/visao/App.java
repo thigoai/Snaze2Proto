@@ -5,7 +5,6 @@ import java.awt.Component;
 
 import javax.swing.*;
 
-import br.ufrn.imd.controle.GameLoop;
 import br.ufrn.imd.grafico.MenuPrincipal;
 import br.ufrn.imd.modelo.SnakeGame;
 

@@ -4,8 +4,7 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-abstract public class Snake {
-	
+public class Snake {
 	protected List<Celula> corpo;
 	protected int direcaoX;
 	protected int direcaoY;
@@ -53,7 +52,7 @@ abstract public class Snake {
 	
 	public boolean colisaoComCorpo() {
 		Celula cabeca = getCabeca();
-		
+		// Começa do índice 1 pois 0 é a própria cabeça
 		for (int i = 1; i < corpo.size(); i++) {
 			Celula parte = corpo.get(i);
 			if (cabeca.getX() == parte.getX() && cabeca.getY() == parte.getY()) {

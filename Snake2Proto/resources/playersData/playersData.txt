@@ -2,4 +2,3 @@ João,1500
 Maria,2000
 Pedro,800
 Ana,1750
-teaf,0

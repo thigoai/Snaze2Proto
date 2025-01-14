@@ -1,7 +1,7 @@
 package br.ufrn.imd.grafico;
 
 import java.awt.*;
-
+import java.awt.event.KeyEvent;
 
 import javax.swing.JPanel;
 
@@ -101,4 +101,8 @@ public abstract class Menu extends JPanel {
         MULTIPLAYER
     }
 
+	public void keyPressed(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
 }
